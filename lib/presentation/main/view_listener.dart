@@ -22,16 +22,20 @@ class _MainViewListeItemsnerState extends State<MainViewListener> {
   @override
   void initState() {
     super.initState();
-    context.read<MainViewNotifier>().addListener(() {
-      final newItems = context.read<MainViewNotifier>().items;
-      if (newItems.length > oldItems.length) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(Strings.todoCreated),
-          ),
-        );
-        oldItems = [...newItems];
-      }
+    context.read<MainViewNotifier>().addListener(listener);
+  }
+
+  void listener() {
+    final newItems = context.read<MainViewNotifier>().items;
+    if (!(newItems.length > oldItems.length)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(Strings.todoCreated),
+        ),
+      );
+    }
+    setState(() {
+      oldItems = [...newItems];
     });
   }
 
