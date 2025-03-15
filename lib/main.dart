@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_playground/presentation/main/view.dart';
 
 void main() {
@@ -17,7 +18,11 @@ class MyApp extends StatelessWidget {
         primaryColor: CupertinoColors.systemBlue,
         scaffoldBackgroundColor: CupertinoColors.lightBackgroundGray,
       ),
-      home: MainView(),
+      home: ScaffoldMessenger(
+        child: Scaffold(
+          body: MainView(),
+        ),
+      ),
     );
   }
 }

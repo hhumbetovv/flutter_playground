@@ -1,33 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_playground/constants/strings.dart';
 import 'package:flutter_playground/domain/entities/todo_entity.dart';
+import 'package:flutter_playground/presentation/main/view_notifier.dart';
+import 'package:provider/provider.dart';
 
 class TodoItem extends StatelessWidget {
   const TodoItem({
     super.key,
     required this.item,
-    required this.toggleCheckTodo,
-    required this.removeTodo,
   });
 
   final TodoEntity item;
-  final VoidCallback toggleCheckTodo;
-  final VoidCallback removeTodo;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext parentContext) {
     return CupertinoButton(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      onPressed: toggleCheckTodo,
+      onPressed: () {
+        parentContext.read<MainViewNotifier>().toggleCheckTodo(item);
+      },
       onLongPress: () {
         showCupertinoModalPopup(
-          context: context,
-          builder: (context) => CupertinoActionSheet(
+          context: parentContext,
+          // ! ignore the context in the bottom line, because it creates
+          // ! a new context (this context does not contain our notifier)
+          builder: (contextWhichMustIgnored) => CupertinoActionSheet(
             actions: [
               CupertinoActionSheetAction(
                 onPressed: () {
-                  Navigator.pop(context);
-                  removeTodo();
+                  Navigator.pop(parentContext);
+                  // ? we use the context of the tree where our notifier is injected
+                  parentContext.read<MainViewNotifier>().removeTodo(item);
+                  // * we will get provider not found error when we use this context
+                  // * contextWhichMustIgnored.read<MainViewNotifier>().removeTodo(item);
                 },
                 isDestructiveAction: true,
                 child: const Text(Strings.delete),
@@ -35,7 +40,7 @@ class TodoItem extends StatelessWidget {
             ],
             cancelButton: CupertinoActionSheetAction(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(parentContext);
               },
               child: const Text(Strings.cancel),
             ),
@@ -51,9 +56,7 @@ class TodoItem extends StatelessWidget {
             child: CupertinoCheckbox(
               activeColor: CupertinoColors.black,
               value: item.isChecked,
-              onChanged: (_) {
-                toggleCheckTodo();
-              },
+              onChanged: null,
             ),
           ),
           Expanded(
@@ -64,7 +67,7 @@ class TodoItem extends StatelessWidget {
               children: [
                 Text(
                   item.data,
-                  style: CupertinoTheme.of(context).textTheme.textStyle.copyWith(
+                  style: CupertinoTheme.of(parentContext).textTheme.textStyle.copyWith(
                         fontSize: 16,
                         color: item.isChecked ? CupertinoColors.separator : null,
                         decoration: item.isChecked ? TextDecoration.lineThrough : null,

@@ -1,18 +1,22 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_playground/constants/strings.dart';
+import 'package:flutter_playground/presentation/main/view_notifier.dart';
+import 'package:provider/provider.dart';
 
 class MainAppBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
   const MainAppBar({
     super.key,
-    required this.hideCompleted,
-    required this.toggleHide,
   });
-
-  final bool hideCompleted;
-  final VoidCallback toggleHide;
 
   @override
   Widget build(BuildContext context) {
+    final hideCompletedTodos = context.select<MainViewNotifier, bool>((notifier) {
+      return notifier.hideCompletedTodos;
+    });
+
+    if (kDebugMode) print("Main AppBar Rebuild");
+
     return CupertinoNavigationBar(
       backgroundColor: CupertinoColors.transparent,
       leading: Text(
@@ -21,9 +25,9 @@ class MainAppBar extends StatelessWidget implements ObstructingPreferredSizeWidg
       ),
       trailing: CupertinoButton(
         padding: EdgeInsets.zero,
-        onPressed: toggleHide,
+        onPressed: context.read<MainViewNotifier>().toggleHide,
         child: Text(
-          hideCompleted ? Strings.showCompleted : Strings.hideCompleted,
+          hideCompletedTodos ? Strings.showCompleted : Strings.hideCompleted,
         ),
       ),
     );

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:uuid/uuid.dart';
 
 class TodoEntity {
@@ -25,6 +26,18 @@ class TodoEntity {
 
   @override
   String toString() {
-    return 'TodoEntity {id=$id, isChecked=$isChecked, data=$data, date=$date }';
+    return 'TodoEntity { id=$id, isChecked=$isChecked, data=$data, date=$date }';
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^ isChecked.hashCode ^ data.hashCode ^ date.hashCode;
+  }
+
+  @override
+  bool operator ==(covariant TodoEntity other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id && other.isChecked == isChecked && other.data == data && other.date == date;
   }
 }
