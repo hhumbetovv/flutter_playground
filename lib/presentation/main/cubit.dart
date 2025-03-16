@@ -39,7 +39,7 @@ final class MainCubit extends Cubit<MainState> {
   }
 
   void removeTodo(TodoEntity todo) {
-    final updatedItems = state.items..remove(todo);
+    final updatedItems = state.items.toList()..remove(todo);
 
     emit(state.copy(
       items: updatedItems,
