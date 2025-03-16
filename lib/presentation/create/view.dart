@@ -19,7 +19,7 @@ class CreateTodoView extends StatelessWidget {
       child: Builder(builder: (injectedContext) {
         if (kDebugMode) print("Create Todo View Rebuild");
         return CupertinoPageScaffold(
-          navigationBar: CreateTaskAppBar(),
+          navigationBar: CreateTodoAppBar(),
           child: SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),

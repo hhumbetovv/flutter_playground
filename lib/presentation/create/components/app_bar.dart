@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_playground/constants/strings.dart';
 
-class CreateTaskAppBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
-  const CreateTaskAppBar({super.key});
+class CreateTodoAppBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
+  const CreateTodoAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
