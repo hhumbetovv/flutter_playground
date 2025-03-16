@@ -17,7 +17,7 @@ class _CreateTodoViewState extends _CreateTodoViewController {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CreateTaskAppBar(),
+      navigationBar: CreateTodoAppBar(),
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
