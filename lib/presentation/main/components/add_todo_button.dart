@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_playground/constants/strings.dart';
 import 'package:flutter_playground/presentation/components/primary_button.dart';
 import 'package:flutter_playground/presentation/create/view.dart';
-import 'package:flutter_playground/presentation/main/bloc.dart';
-import 'package:flutter_playground/presentation/main/event.dart';
+import 'package:flutter_playground/presentation/main/cubit.dart';
 
 class AddTodoButton extends StatelessWidget {
   const AddTodoButton({super.key});
@@ -22,9 +21,9 @@ class AddTodoButton extends StatelessWidget {
         ));
         // ! We need to check is context is mounted or not
         // ! because the screen can be exited until await is finished,
-        // ! at which time the bloc will be dispose if the context is unmounted
+        // ! at which time the cubit will be dispose if the context is unmounted
         if (!context.mounted) return;
-        context.read<MainBloc>().add(MainEvent.createTodo(result));
+        context.read<MainCubit>().createTodo(result);
       },
     );
   }

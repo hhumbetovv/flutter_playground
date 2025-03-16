@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_playground/presentation/main/bloc.dart';
+import 'package:flutter_playground/presentation/main/cubit.dart';
 import 'package:flutter_playground/presentation/main/components/todo_item.dart';
 
 class TodoList extends StatelessWidget {
@@ -9,13 +9,13 @@ class TodoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<MainBloc>();
+    final cubit = context.watch<MainCubit>();
 
-    final items = bloc.state.hideCompletedTodos
-        ? bloc.state.items.where((item) {
+    final items = cubit.state.hideCompletedTodos
+        ? cubit.state.items.where((item) {
             return !item.isChecked;
           }).toList()
-        : bloc.state.items;
+        : cubit.state.items;
     if (kDebugMode) print("Todo List Rebuild");
 
     return Expanded(

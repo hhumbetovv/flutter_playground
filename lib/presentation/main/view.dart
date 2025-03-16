@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_playground/constants/strings.dart';
-import 'package:flutter_playground/presentation/main/bloc.dart';
+import 'package:flutter_playground/presentation/main/cubit.dart';
 import 'package:flutter_playground/presentation/main/components/add_todo_button.dart';
 import 'package:flutter_playground/presentation/main/components/app_bar.dart';
 import 'package:flutter_playground/presentation/main/components/todo_list.dart';
@@ -14,8 +14,8 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MainBloc(),
-      child: BlocListener<MainBloc, MainState>(
+      create: (context) => MainCubit(),
+      child: BlocListener<MainCubit, MainState>(
         listener: (context, state) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

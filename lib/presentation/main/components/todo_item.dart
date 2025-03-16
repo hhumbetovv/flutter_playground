@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_playground/constants/strings.dart';
 import 'package:flutter_playground/domain/entities/todo_entity.dart';
-import 'package:flutter_playground/presentation/main/bloc.dart';
-import 'package:flutter_playground/presentation/main/event.dart';
+import 'package:flutter_playground/presentation/main/cubit.dart';
 
 class TodoItem extends StatelessWidget {
   const TodoItem({
@@ -18,22 +17,22 @@ class TodoItem extends StatelessWidget {
     return CupertinoButton(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       onPressed: () {
-        parentContext.read<MainBloc>().add(MainEvent.toggleCheckTodo(item));
+        parentContext.read<MainCubit>().toggleCheckTodo(item);
       },
       onLongPress: () {
         showCupertinoModalPopup(
           context: parentContext,
           // ! ignore the context in the bottom line, because it creates
-          // ! a new context (this context does not contain our bloc)
+          // ! a new context (this context does not contain our cubit)
           builder: (contextWhichMustIgnored) => CupertinoActionSheet(
             actions: [
               CupertinoActionSheetAction(
                 onPressed: () {
                   Navigator.pop(parentContext);
-                  // ? we use the context of the tree where our bloc is injected
-                  parentContext.read<MainBloc>().add(MainEvent.removeTodo(item));
+                  // ? we use the context of the tree where our cubit is injected
+                  parentContext.read<MainCubit>().removeTodo(item);
                   // * we will get provider not found error when we use this context
-                  // * contextWhichMustIgnored.read<MainBloc>().add(MainEvent.removeTodo(item));
+                  // * contextWhichMustIgnored.read<MainCubit>().removeTodo(item);
                 },
                 isDestructiveAction: true,
                 child: const Text(Strings.delete),

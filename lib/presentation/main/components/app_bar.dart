@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_playground/constants/strings.dart';
-import 'package:flutter_playground/presentation/main/bloc.dart';
-import 'package:flutter_playground/presentation/main/event.dart';
+import 'package:flutter_playground/presentation/main/cubit.dart';
 import 'package:flutter_playground/presentation/main/state.dart';
 
 class MainAppBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
@@ -22,9 +21,9 @@ class MainAppBar extends StatelessWidget implements ObstructingPreferredSizeWidg
       trailing: CupertinoButton(
         padding: EdgeInsets.zero,
         onPressed: () {
-          context.read<MainBloc>().add(MainEvent.toggleHide());
+          context.read<MainCubit>().toggleHide();
         },
-        child: BlocSelector<MainBloc, MainState, bool>(
+        child: BlocSelector<MainCubit, MainState, bool>(
           selector: (state) => state.hideCompletedTodos,
           builder: (context, hideCompletedTodos) {
             if (kDebugMode) print("Main AppBar Rebuild");
