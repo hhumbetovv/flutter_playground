@@ -1,21 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_playground/presentation/main/cubit.dart';
 import 'package:flutter_playground/presentation/main/components/todo_item.dart';
+import 'package:flutter_playground/presentation/main/notifier.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TodoList extends StatelessWidget {
+class TodoList extends ConsumerWidget {
   const TodoList({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final cubit = context.watch<MainCubit>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(mainProvider);
 
-    final items = cubit.state.hideCompletedTodos
-        ? cubit.state.items.where((item) {
+    final items = state.hideCompletedTodos
+        ? state.items.where((item) {
             return !item.isChecked;
           }).toList()
-        : cubit.state.items;
+        : state.items;
     if (kDebugMode) print("Todo List Rebuild");
 
     return Expanded(

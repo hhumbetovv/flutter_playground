@@ -1,45 +1,43 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_playground/constants/strings.dart';
-import 'package:flutter_playground/presentation/main/cubit.dart';
+import 'package:flutter_playground/presentation/main/notifier.dart';
 import 'package:flutter_playground/presentation/main/components/add_todo_button.dart';
 import 'package:flutter_playground/presentation/main/components/app_bar.dart';
 import 'package:flutter_playground/presentation/main/components/todo_list.dart';
-import 'package:flutter_playground/presentation/main/state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainView extends StatelessWidget {
+class MainView extends ConsumerWidget {
   const MainView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MainCubit(),
-      child: BlocListener<MainCubit, MainState>(
-        listener: (context, state) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(
+      mainProvider.select((value) {
+        return value.items;
+      }),
+      (previous, next) {
+        if ((previous?.length ?? 0) > next.length) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(Strings.taskRemoved),
             ),
           );
-        },
-        listenWhen: (previous, current) {
-          return previous.items.length > current.items.length;
-        },
-        child: CupertinoPageScaffold(
-          navigationBar: MainAppBar(),
-          child: CupertinoTheme(
-            data: CupertinoTheme.of(context).copyWith(
-              primaryColor: CupertinoColors.black,
-            ),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  TodoList(),
-                  AddTodoButton(),
-                ],
-              ),
-            ),
+        }
+      },
+    );
+    return CupertinoPageScaffold(
+      navigationBar: MainAppBar(),
+      child: CupertinoTheme(
+        data: CupertinoTheme.of(context).copyWith(
+          primaryColor: CupertinoColors.black,
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              TodoList(),
+              AddTodoButton(),
+            ],
           ),
         ),
       ),
