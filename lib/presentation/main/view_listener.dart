@@ -27,10 +27,10 @@ class _MainViewListeItemsnerState extends State<MainViewListener> {
 
   void listener() {
     final newItems = context.read<MainViewNotifier>().items;
-    if (!(newItems.length > oldItems.length)) {
+    if (newItems.length < oldItems.length) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(Strings.todoCreated),
+          content: Text(Strings.taskRemoved),
         ),
       );
     }

@@ -9,5 +9,5 @@ sealed class Strings {
   static const description = "Description";
   static const done = "Done";
   static const task = "Task";
-  static const todoCreated = "Todo Created";
+  static const taskRemoved = "Task removed";
 }
