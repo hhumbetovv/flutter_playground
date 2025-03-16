@@ -27,7 +27,7 @@ class CreateTodoView extends ConsumerWidget {
                 initialFocus: true,
                 placeholder: Strings.description,
                 onChanged: (value) {
-                  final notifier = ref.read(createTodoProvider.notifier);
+                  final notifier = ref.read(createTodoNotifierProvider.notifier);
                   notifier.setDescription(value);
                   // ! Wrong Usage
                   // ! final notifier = ref.watch(createTodoProvider.notifier);

@@ -9,7 +9,7 @@ class TodoList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(mainProvider);
+    final state = ref.watch(mainNotifierProvider);
 
     final items = state.hideCompletedTodos
         ? state.items.where((item) {

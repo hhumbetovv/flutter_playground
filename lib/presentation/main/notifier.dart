@@ -1,12 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_playground/domain/entities/todo_entity.dart';
 import 'package:flutter_playground/presentation/main/state.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final class MainNotifier extends StateNotifier<MainState> {
-  MainNotifier() : super(MainState(items: [], hideCompletedTodos: false)) {
+part 'notifier.g.dart';
+
+@riverpod
+final class MainNotifier extends _$MainNotifier {
+  MainNotifier() : super() {
     if (kDebugMode) print("Main Notifier Created");
   }
+
+  @override
+  MainState build() => MainState(items: [], hideCompletedTodos: false);
 
   void createTodo(String? data) {
     if (data != null) {
@@ -43,14 +49,4 @@ final class MainNotifier extends StateNotifier<MainState> {
 
     state = state.copy(items: updatedItems);
   }
-
-  @override
-  void dispose() {
-    if (kDebugMode) print("Main Notifier Disposed");
-    super.dispose();
-  }
 }
-
-final mainProvider = StateNotifierProvider<MainNotifier, MainState>((ref) {
-  return MainNotifier();
-});

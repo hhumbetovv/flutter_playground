@@ -11,7 +11,7 @@ class MainAppBar extends ConsumerWidget implements ObstructingPreferredSizeWidge
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final hideCompletedTodos = ref.watch(mainProvider.select((state) {
+    final hideCompletedTodos = ref.watch(mainNotifierProvider.select((state) {
       return state.hideCompletedTodos;
     }));
 
@@ -25,7 +25,7 @@ class MainAppBar extends ConsumerWidget implements ObstructingPreferredSizeWidge
       trailing: CupertinoButton(
         padding: EdgeInsets.zero,
         onPressed: () {
-          ref.read(mainProvider.notifier).toggleHide();
+          ref.read(mainNotifierProvider.notifier).toggleHide();
         },
         child: Text(
           hideCompletedTodos ? Strings.showCompleted : Strings.hideCompleted,

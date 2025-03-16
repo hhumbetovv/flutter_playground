@@ -13,7 +13,7 @@ class MainView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(
-      mainProvider.select((value) {
+      mainNotifierProvider.select((value) {
         return value.items;
       }),
       (previous, next) {

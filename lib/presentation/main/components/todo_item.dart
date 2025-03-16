@@ -17,7 +17,7 @@ class TodoItem extends ConsumerWidget {
     return CupertinoButton(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       onPressed: () {
-        ref.read(mainProvider.notifier).toggleCheckTodo(item);
+        ref.read(mainNotifierProvider.notifier).toggleCheckTodo(item);
       },
       onLongPress: () {
         showCupertinoModalPopup(
@@ -27,7 +27,7 @@ class TodoItem extends ConsumerWidget {
               CupertinoActionSheetAction(
                 onPressed: () {
                   Navigator.pop(context);
-                  ref.read(mainProvider.notifier).removeTodo(item);
+                  ref.read(mainNotifierProvider.notifier).removeTodo(item);
                 },
                 isDestructiveAction: true,
                 child: const Text(Strings.delete),

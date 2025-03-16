@@ -13,13 +13,13 @@ class DoneButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     void popResult() {
       // ! One-time state-reading
-      final state = ref.read(createTodoProvider);
-      ref.read(mainProvider.notifier).createTodo(state.description);
+      final state = ref.read(createTodoNotifierProvider);
+      ref.read(mainNotifierProvider.notifier).createTodo(state.description);
       Navigator.of(context).pop();
     }
 
     // ! We must use the select method to avoid rebuilding every time the text changes
-    final isEnabled = ref.watch(createTodoProvider.select((state) {
+    final isEnabled = ref.watch(createTodoNotifierProvider.select((state) {
       return state.description.isNotEmpty;
     }));
 
