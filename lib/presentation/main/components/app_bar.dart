@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_playground/constants/strings.dart';
-import 'package:flutter_playground/presentation/main/view_notifier.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_playground/presentation/main/bloc.dart';
+import 'package:flutter_playground/presentation/main/event.dart';
+import 'package:flutter_playground/presentation/main/state.dart';
 
 class MainAppBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
   const MainAppBar({
@@ -11,12 +13,6 @@ class MainAppBar extends StatelessWidget implements ObstructingPreferredSizeWidg
 
   @override
   Widget build(BuildContext context) {
-    final hideCompletedTodos = context.select<MainViewNotifier, bool>((notifier) {
-      return notifier.hideCompletedTodos;
-    });
-
-    if (kDebugMode) print("Main AppBar Rebuild");
-
     return CupertinoNavigationBar(
       backgroundColor: CupertinoColors.transparent,
       leading: Text(
@@ -25,9 +21,18 @@ class MainAppBar extends StatelessWidget implements ObstructingPreferredSizeWidg
       ),
       trailing: CupertinoButton(
         padding: EdgeInsets.zero,
-        onPressed: context.read<MainViewNotifier>().toggleHide,
-        child: Text(
-          hideCompletedTodos ? Strings.showCompleted : Strings.hideCompleted,
+        onPressed: () {
+          context.read<MainBloc>().add(MainEvent.toggleHide());
+        },
+        child: BlocSelector<MainBloc, MainState, bool>(
+          selector: (state) => state.hideCompletedTodos,
+          builder: (context, hideCompletedTodos) {
+            if (kDebugMode) print("Main AppBar Rebuild");
+
+            return Text(
+              hideCompletedTodos ? Strings.showCompleted : Strings.hideCompleted,
+            );
+          },
         ),
       ),
     );

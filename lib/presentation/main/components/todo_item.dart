@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_playground/constants/strings.dart';
 import 'package:flutter_playground/domain/entities/todo_entity.dart';
-import 'package:flutter_playground/presentation/main/view_notifier.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_playground/presentation/main/bloc.dart';
+import 'package:flutter_playground/presentation/main/event.dart';
 
 class TodoItem extends StatelessWidget {
   const TodoItem({
@@ -17,22 +18,22 @@ class TodoItem extends StatelessWidget {
     return CupertinoButton(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       onPressed: () {
-        parentContext.read<MainViewNotifier>().toggleCheckTodo(item);
+        parentContext.read<MainBloc>().add(MainEvent.toggleCheckTodo(item));
       },
       onLongPress: () {
         showCupertinoModalPopup(
           context: parentContext,
           // ! ignore the context in the bottom line, because it creates
-          // ! a new context (this context does not contain our notifier)
+          // ! a new context (this context does not contain our bloc)
           builder: (contextWhichMustIgnored) => CupertinoActionSheet(
             actions: [
               CupertinoActionSheetAction(
                 onPressed: () {
                   Navigator.pop(parentContext);
-                  // ? we use the context of the tree where our notifier is injected
-                  parentContext.read<MainViewNotifier>().removeTodo(item);
+                  // ? we use the context of the tree where our bloc is injected
+                  parentContext.read<MainBloc>().add(MainEvent.removeTodo(item));
                   // * we will get provider not found error when we use this context
-                  // * contextWhichMustIgnored.read<MainViewNotifier>().removeTodo(item);
+                  // * contextWhichMustIgnored.read<MainBloc>().add(MainEvent.removeTodo(item));
                 },
                 isDestructiveAction: true,
                 child: const Text(Strings.delete),
