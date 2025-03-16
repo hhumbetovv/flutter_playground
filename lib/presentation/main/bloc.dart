@@ -39,7 +39,7 @@ final class MainBloc extends Bloc<MainEvent, MainState> {
     });
 
     on<MainRemoveTodo>((event, emit) {
-      final updatedItems = state.items..remove(event.todo);
+      final updatedItems = state.items.toList()..remove(event.todo);
 
       emit(state.copy(
         items: updatedItems,
