@@ -48,5 +48,8 @@ abstract class _MainViewController extends State<MainView> {
         items.toList()..remove(item),
       );
     });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(Strings.taskRemoved)),
+    );
   }
 }
